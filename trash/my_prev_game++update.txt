@@ -1,0 +1,84 @@
+	const Uint8* state = SDL_GetKeyboardState(NULL);
+	if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_UP]) {
+		// рухаємо персонажа вліво-вверх
+		speed.x -= 0.1;
+		speed.y -= 0.1;
+	}
+	else if (state[SDL_SCANCODE_LEFT] && state[SDL_SCANCODE_DOWN]) {
+		// рухаємо персонажа вліво-вниз
+		speed.x -= 0.1;
+		speed.y += 0.1;
+	}
+	else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_UP]) {
+		// рухаємо персонажа вправо-вверх
+		speed.x += 0.1;
+		speed.y -= 0.1;
+	}
+	else if (state[SDL_SCANCODE_RIGHT] && state[SDL_SCANCODE_DOWN]) {
+		// рухаємо персонажа вправо-вниз
+		speed.x += 0.1;
+		speed.y += 0.1;
+	}
+	else if (state[SDL_SCANCODE_LEFT]) {
+		// рухаємо персонажа вліво
+		speed.x -= 0.1;
+	}
+	else if (state[SDL_SCANCODE_RIGHT]) {
+		// рухаємо персонажа вправо
+		speed.x += 0.1;
+	}
+	else if (state[SDL_SCANCODE_UP]) {
+		// рухаємо персонажа вверх
+		speed.y -= 0.1;
+	}
+	else if (state[SDL_SCANCODE_DOWN]) {
+		// рухаємо персонажа вниз
+		speed.y += 0.1;
+	}
+
+	
+	//colision
+	float k_of_elastic_reflection = 0.8;
+	if (y_pos < 0)
+	{
+		if(speed.y < 0)speed.y *= -k_of_elastic_reflection;
+	}
+	if (y_pos > HEIGHT - destR.h)
+	{
+		if(speed.y > 0)
+			speed.y *= -k_of_elastic_reflection;
+	}
+	if (cnt > WIDTH - destR.w)
+	{
+		if (speed.x > 0)speed.x *= -k_of_elastic_reflection;
+	}
+	if (cnt < 0)
+	{
+		if(speed.x < 0)speed.x *= -k_of_elastic_reflection;
+	}
+	if(y_pos > 0 && y_pos < HEIGHT && cnt > 0 && cnt < WIDTH)
+		buffer_Rwas[(int)y_pos][(int)cnt] = 1;
+
+	if (speed.x > 0.1) speed.x -= 0.01; if (speed.x > 0) speed.x -= 0.001;
+	if (speed.x < -0.1) speed.x += 0.01; if (speed.x < 0) speed.x += 0.001; //x_vec of friction force
+
+	if (speed.y > 0.1) speed.y -= 0.01; if (speed.y > 0) speed.y -= 0.001;//y_vec of friction force
+	if (speed.y < -0.1) speed.y += 0.01; if (speed.y < 0) speed.y += 0.001;
+	
+	if (speed.x > max_speed) speed.x = max_speed - 0.1;
+	if (speed.y > max_speed) speed.y = max_speed - 0.1;
+	if (-speed.x > max_speed) speed.x = -(max_speed - 0.1);
+	if (-speed.y > max_speed) speed.y = -(max_speed - 0.1);
+
+	//gravity
+
+	if (gravity && destR.y < HEIGHT - 100)
+	{
+		speed.y += 0.05;
+	}
+	cnt += speed.x;
+	y_pos += speed.y;
+	destR.h = 100;
+	destR.w = 100;
+	destR.x = cnt;
+	destR.y = y_pos;

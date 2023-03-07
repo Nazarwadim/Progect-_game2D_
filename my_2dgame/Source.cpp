@@ -17,18 +17,19 @@ int main(int argc, char* argv[])
 	{
 		frameStart = SDL_GetTicks();
 
-		game->handleEvents();
+		
 		game->update();
 		game->render();
-
+		game->handleEvents();
 		frametime = SDL_GetTicks() - frameStart;
 		if (frameDelay > frametime)
 		{
-			SDL_Delay(frameDelay - frametime); //60 fps
+			SDL_Delay(frameDelay - frametime); //60 fps duraku on line 11 it is written 144 chorte 
 		}
-		std::cout << 1000 / (SDL_GetTicks() - frameStart) << '\n';
 	}
 
 	game->clean();
+	
+	delete game;
 	return 0;
 }
