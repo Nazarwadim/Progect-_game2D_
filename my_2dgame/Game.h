@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cmath>
 #define WIDTH 800
-#define HEIGHT 600
+#define HEIGHT 640
 struct Vector2d {
 	float x;
 	float y;
@@ -15,6 +15,8 @@ struct Vector2d {
 class Game
 {
 public:
+	Game();
+	~Game();
 	void start();
 	void update();
 	void handleEvents();
@@ -42,9 +44,11 @@ public:
 		}
 	}
 	void clean();
+
+	static SDL_Renderer* renderer;
+
 private:
 	bool isRunning = false;
 	float cnt = 0;
 	SDL_Window *window;
-	SDL_Renderer* renderer;	
 };

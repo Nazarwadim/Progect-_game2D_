@@ -2,7 +2,7 @@
 #include "Game.h"
 class GameObject{
 public:
-	GameObject(const char * teture_sheet, SDL_Renderer *ren, bool isGravity = false, bool floor = false, bool rigidBody = false);
+	GameObject(const char * teture_sheet, bool isGravity = false, bool floor = false, bool rigidBody = false);
 	~GameObject();
 	void render();
 	void update();
@@ -16,5 +16,4 @@ protected:
 	Vector2d speed = { 0, 0 };
 	SDL_Texture *object_texture;
 	SDL_Rect srcRect, destRect;
-	SDL_Renderer * render_obj;
 };

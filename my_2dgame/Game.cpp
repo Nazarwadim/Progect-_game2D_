@@ -1,24 +1,30 @@
 #include "Game.h"
 #include "GameObject.h"
-
-
-GameObject *player;
+#include "Map.h"
+SDL_Renderer * Game::renderer = nullptr;
+GameObject* player;
+Map *map;
+Game::Game()
+{}
+Game::~Game()
+{
+	delete player;
+	delete map;
+}
 void Game::start()
 {	
-	player = new GameObject("player.png", renderer, true, true);
+	player = new GameObject("assets/player.png", true, true);
+	map = new Map();
 }
 void Game::update()
 {
 	player->update();
-	if (!isRunning)
-	{
-		delete player;
-	}
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
+	map->draw_map();
 	player->render();
 	SDL_RenderPresent(renderer);
 }
